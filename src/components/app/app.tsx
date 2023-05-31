@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { AppRoute } from '../../const/const';
@@ -8,11 +8,13 @@ import Layout from '../layout/layout';
 import Product from '../../pages/product/product';
 import Basket from '../../pages/basket/basket';
 import NoPage from '../../pages/no-page/no-page';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history/browser-history';
 
 function App(): JSX.Element {
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Catalog} element={<Layout />}>
             <Route
@@ -33,7 +35,7 @@ function App(): JSX.Element {
             element={<NoPage />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

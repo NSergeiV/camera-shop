@@ -1,5 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
+import { useAppSelector } from '../../hooks/hook';
+import { getIsProductsDataLoading, getProducts, getPromoProduct } from '../../store/data-process/selectors';
+
 import Banner from '../../components/banner/banner';
 import CatalogFilterForm from '../../components/catalog-filter-form/catalog-filter-form';
 import CatalogSortForm from '../../components/catalog-sort-form/catalog-sort-form';
@@ -7,14 +10,25 @@ import CatalogProductCard from '../../components/catalog-product-card/catalog-pr
 import Pagination from '../../components/pagination/pagination';
 import ModalCatalogAddItem from '../../components/modal-catalog-add-item/modal-catalog-add-item';
 import ModalCatalogAddItemSuccess from '../../components/modal-catalog-add-item-success/modal-catalog-add-item-success';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 function Catalog(): JSX.Element {
+
+  const isProductsDataLoading = useAppSelector(getIsProductsDataLoading);
+
+  const promoProduct = useAppSelector(getPromoProduct);
+  const productsChunk = useAppSelector(getProducts);
+
+  if (isProductsDataLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <main>
       <Helmet>
         <title>Каталог</title>
       </Helmet>
-      <Banner />
+      <Banner promoProduct={promoProduct} />
       <div className="page-content">
         <div className="breadcrumbs">
           <div className="container">
@@ -22,7 +36,7 @@ function Catalog(): JSX.Element {
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link" href="index.html">Главная
                   <svg width="5" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-arrow-mini"></use>
+                    <use xlinkHref="#icon-dividerow-mini"></use>
                   </svg>
                 </a>
               </li>
@@ -46,7 +60,7 @@ function Catalog(): JSX.Element {
                   <CatalogSortForm />
                 </div>
                 <div className="cards catalog__cards">
-                  <CatalogProductCard />
+                  {productsChunk.map((item) => <CatalogProductCard key={item.id} product={item} />)}
                 </div>
                 <Pagination />
               </div>
