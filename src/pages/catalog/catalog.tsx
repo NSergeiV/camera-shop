@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 
 import { useAppSelector } from '../../hooks/hook';
-import { getIsProductsDataLoading, getProducts, getPromoProduct } from '../../store/data-process/selectors';
+import { getIsProductsDataLoading, getIsPromoProductLoading, getProductsChunk, getPromoProduct } from '../../store/data-process/selectors';
 
 import Banner from '../../components/banner/banner';
 import CatalogFilterForm from '../../components/catalog-filter-form/catalog-filter-form';
@@ -13,15 +14,23 @@ import ModalCatalogAddItemSuccess from '../../components/modal-catalog-add-item-
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 function Catalog(): JSX.Element {
+  const [page, setPage] = useState(0);
 
   const isProductsDataLoading = useAppSelector(getIsProductsDataLoading);
+  const isPromoProductLoading = useAppSelector(getIsPromoProductLoading);
 
   const promoProduct = useAppSelector(getPromoProduct);
-  const productsChunk = useAppSelector(getProducts);
+  const productsChunk = useAppSelector(getProductsChunk);
 
-  if (isProductsDataLoading) {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const handlePaginateClick = (index: number) => {
+    setPage(index);
+  };
+
+  if (isProductsDataLoading || isPromoProductLoading) {
     return <LoadingScreen />;
   }
+
 
   return (
     <main>
@@ -60,9 +69,9 @@ function Catalog(): JSX.Element {
                   <CatalogSortForm />
                 </div>
                 <div className="cards catalog__cards">
-                  {productsChunk.map((item) => <CatalogProductCard key={item.id} product={item} />)}
+                  {productsChunk[page].map((item) => <CatalogProductCard key={item.id} product={item} />)}
                 </div>
-                <Pagination />
+                {productsChunk.length > 1 ? <Pagination pageNumber={page} onHandlePaginateClick={handlePaginateClick} /> : ''}
               </div>
             </div>
           </div>

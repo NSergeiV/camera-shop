@@ -23,11 +23,13 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         const data = action.payload;
+        const productsData = [];
 
         for (let i = 0; i < data.length; i += SIZE_CHUNK) {
-          state.productsChunk.push(data.slice(i, i + SIZE_CHUNK));
+          productsData.push(data.slice(i, i + SIZE_CHUNK));
         }
 
+        state.productsChunk = productsData;
         state.products = data;
 
         state.isProductsDataLoading = false;
@@ -36,11 +38,14 @@ export const dataProcess = createSlice({
         state.isProductsDataLoading = false;
       })
       .addCase(fetchPromoProductAction.pending, (state) => {
-        state.isProductsDataLoading = true;
+        state.isPromoProductLoading = true;
       })
       .addCase(fetchPromoProductAction.fulfilled, (state, action) => {
         state.promoProduct = action.payload;
-        state.isProductsDataLoading = false;
+        state.isPromoProductLoading = false;
+      })
+      .addCase(fetchPromoProductAction.rejected, (state) => {
+        state.isPromoProductLoading = false;
       });
   }
 });
