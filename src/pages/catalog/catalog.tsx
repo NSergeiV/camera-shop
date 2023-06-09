@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { useAppSelector } from '../../hooks/hook';
 import { getIsProductsDataLoading, getIsPromoProductLoading, getProductsChunk, getPromoProduct } from '../../store/data-process/selectors';
+// import { useQueryParams } from '../../hooks/hook';
 
 import Banner from '../../components/banner/banner';
 import CatalogFilterForm from '../../components/catalog-filter-form/catalog-filter-form';
@@ -16,13 +17,15 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 function Catalog(): JSX.Element {
   const [page, setPage] = useState(0);
 
+  // const query = useQueryParams();
+  // const queryPage = query.get('page');
+
   const isProductsDataLoading = useAppSelector(getIsProductsDataLoading);
   const isPromoProductLoading = useAppSelector(getIsPromoProductLoading);
 
   const promoProduct = useAppSelector(getPromoProduct);
   const productsChunk = useAppSelector(getProductsChunk);
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const handlePaginateClick = (index: number) => {
     setPage(index);
   };
