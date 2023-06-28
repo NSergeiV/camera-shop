@@ -23,7 +23,7 @@ function Pagination({ pageNumber, onHandlePaginateClick }: paginationProps): JSX
           (chunk, index) => (
             <li key={chunk[0].id} className="pagination__item">
               <Link
-                to={`/page_${index + 1}`}
+                to={`/?page_${index + 1}`}
                 className={cn(
                   'pagination__link',
                   { 'pagination__link--active': pageNumber === index }
