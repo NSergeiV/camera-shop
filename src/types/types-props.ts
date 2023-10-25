@@ -1,7 +1,7 @@
 import { PromoProdudct } from './types-api';
 
 export type PromoProdudctProps = {
-  promoProduct: PromoProdudct | null;
+  promoProduct: PromoProdudct[] | null;
 };
 
 export type ProductProps = {

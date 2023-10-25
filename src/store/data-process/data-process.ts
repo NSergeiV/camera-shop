@@ -7,7 +7,7 @@ import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
 const initialState: DataProcess = {
   products: [],
   isProductsDataLoading: false,
-  promoProduct: null,
+  promoProduct: [],
   isPromoProductLoading: false,
   productsChunk: [],
 };

@@ -2,7 +2,7 @@
 export type DataProcess = {
   products: ProductData[];
   isProductsDataLoading: boolean;
-  promoProduct: PromoProdudct | null;
+  promoProduct: PromoProducts;
   isPromoProductLoading: boolean;
   productsChunk: ProductData[][];
 }
@@ -24,6 +24,8 @@ type ProductData = {
   previewImgWebp: string;
   previewImgWebp2x: string;
 };
+
+export type PromoProducts = PromoProdudct[];
 
 export type PromoProdudct = {
   id: number;
